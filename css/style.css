@@ -4,7 +4,7 @@
 }
 
 body {
-  background-image: url(bg.jpg);
+  background-image: url(../img/bg.jpg);
   text-align: center;
   font-family: 'Roboto', sans-serif;
 }
@@ -302,7 +302,7 @@ h1 {
   transform: translateY(-15px);
 }
 
-.alert 
+.alert
 {
   position: absolute;
   color: #cc3300;
