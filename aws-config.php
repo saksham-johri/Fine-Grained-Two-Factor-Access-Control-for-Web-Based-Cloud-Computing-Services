@@ -6,5 +6,5 @@
 	$REGION = 'S3_BUCKET_REGION';
 
 	// Dashboard url to be changed here in the same format with /dashboard ar the end
-	$RedirectURL = 'http://localhost/dashboard'
+	$RedirectURL = 'http://HOST/dashboard'
 ?>
