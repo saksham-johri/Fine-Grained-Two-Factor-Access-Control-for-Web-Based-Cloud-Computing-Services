@@ -60,6 +60,7 @@
 	else
 		$folder = $_GET['f'];
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -96,9 +97,6 @@
         <li><a href="#" class="active"><span>Dashboard</span></a></li>
         <li><a href="#"><span>New Articles</span></a></li>
         <li><a href="#"><span>User Management</span></a></li>
-        <li><a href="#"><span>Photo Gallery</span></a></li>
-        <li><a href="#"><span>Products</span></a></li>
-        <li><a href="#"><span>Services Control</span></a></li>
       </ul>
     </div>
     <!-- End Main Nav -->
