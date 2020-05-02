@@ -7,6 +7,12 @@
 
 	require 'vendor/autoload.php';
 	
+	if(!isset($_POST['directory'])){
+		header("Location: " . $APP_URL . 'dashboard');
+		die();
+	}
+	$folder = $_POST['directory'];
+	
 	use Aws\S3\S3Client;
 	use Aws\S3\Exception\S3Exception;
 
@@ -29,13 +35,9 @@
 		die("Error: " . $e->getMessage());
 	}
 
-	if(!isset($_POST['keyName'])){
-		header("Location: " . $APP_URL . 'dashboard');
-		die();
-	}
 	$keyname = $_POST['keyName'];
 
-	// 1. Delete the object from the bucket.
+	// Delete the object from the bucket.
 	try
 	{
 		echo 'Attempting to delete ' . $keyname . '...' . PHP_EOL;
@@ -49,27 +51,13 @@
 		{
 			echo $keyname . ' was deleted or does not exist.' . PHP_EOL;
 		} else {
+			header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
 			exit('Error: ' . $keyname . ' was not deleted.' . PHP_EOL);
 		}
 	}
 	catch (S3Exception $e) {
+		header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
 		exit('Error: ' . $e->getAwsErrorMessage() . PHP_EOL);
 	}
-
-	// 2. Check to see if the object was deleted.
-	try
-	{
-		echo 'Checking to see if ' . $keyname . ' still exists...' . PHP_EOL;
-
-		$result = $s3->getObject([
-			'Bucket' => $bucketName,
-			'Key'    => $keyname
-		]);
-
-		echo 'Error: ' . $keyname . ' still exists.';
-	}
-	catch (S3Exception $e) {
-		exit($e->getAwsErrorMessage());
-	}
-	header('Location: ' . $RedirectURL . '?result=success');
+	header('Location: ' . $RedirectURL . '?result=success&f=' . $folder);
 ?>

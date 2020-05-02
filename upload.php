@@ -12,6 +12,12 @@
 
 	include('aws-config.php');
 	
+	if(!isset($_POST['directory'])){
+		header("Location: " . $APP_URL . 'dashboard');
+		die();
+	}
+	$folder = $_POST['directory'];
+	
 	// Connect to AWS
 	try {
 		$s3 = S3Client::factory(
@@ -28,12 +34,6 @@
 		header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
 		die("Error: " . $e->getMessage());
 	}
-
-	if(!isset($_POST['directory'])){
-		header("Location: " . $APP_URL . 'dashboard');
-		die();
-	}
-	$folder = $_POST['directory'];
 
 	$keyName = $folder . basename($_FILES["fileToUpload"]['name']);
 	$pathInS3 = 'https://s3.' . $REGION . '.amazonaws.com/' . $bucketName . '/' . $keyName;

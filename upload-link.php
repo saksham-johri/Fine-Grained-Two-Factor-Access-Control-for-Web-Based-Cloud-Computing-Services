@@ -11,6 +11,12 @@
 	use Aws\S3\Exception\S3Exception;
 
 	include('aws-config.php');
+	
+	if(!isset($_POST['directory'])){
+		header("Location: " . $APP_URL . 'dashboard');
+		die();
+	}
+	$folder = $_POST['directory'];
 		
 	// Connect to AWS
 	try {
@@ -29,13 +35,7 @@
 		die("Error: " . $e->getMessage());
 	}
 
-	if(!isset($_POST['directory'])){
-		header("Location: " . $APP_URL . 'dashboard');
-		die();
-	}
 	$fileURL = $_POST['url']; // Change this
-
-	$folder = $_POST['directory'];
 
 	$keyName = $folder . basename($fileURL);
 	$pathInS3 = 'https://s3.' . $REGION . '.amazonaws.com/' . $bucketName . '/' . $keyName;

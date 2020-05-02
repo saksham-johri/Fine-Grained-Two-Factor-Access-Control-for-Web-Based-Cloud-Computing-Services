@@ -109,13 +109,13 @@
 				<!-- End Small Nav -->
 				<!-- Message OK -->
 				<div class="msg msg-ok" id="ok">
-					<p><strong>Your file was uploaded successfully !</strong></p>
+					<p><strong>Request completed successfully !</strong></p>
 					<a class="close" onclick="close()">close</a> 
 				</div>
 				<!-- End Message OK -->
 				<!-- Message Error -->
 				<div class="msg msg-error" id="error">
-					<p><strong>Error in uploading your File !</strong></p>
+					<p><strong>Error in completing your Request !</strong></p>
 					<a class="close" onclick="close()">close</a> 
 				</div>
 				<!-- End Message Error -->
@@ -327,6 +327,11 @@
 					element1.value = key;
 					element1.type = 'hidden';
 					form.appendChild(element1);
+					var element2 = document.createElement("INPUT");         
+					element2.name="directory";
+					element2.value = <?php echo $folder; ?>;
+					element2.type = 'hidden';
+					form.appendChild(element2);
 					form.submit();
 				}
 			}
