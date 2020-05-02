@@ -181,7 +181,7 @@
 																echo $str .'</a></h3></td>
 																	<td>xx.xx.xx</td>
 																	<td>Administrator</td>
-																	<td><a href="#" class="ico del">Delete</a><a href="#" class="ico edit">Edit</a></td>
+																	<td><a href="#" onclick="del(' . $object["Key"] . ')" class="ico del">Delete</a><a href="download(' . $object["Key"] . ')" class="ico edit">Download</a></td>
 																</tr>
 																';
 															}
@@ -315,5 +315,36 @@
 			<div class="shell"> <span class="left">&copy; 2020 - EVOLVE</span> <span class="right"> Template by <a href="http://chocotemplates.com">Chocotemplates.com</a> </span> </div>
 		</div>
 		<!-- End Footer -->
+		<script>
+		function del(key){
+			if(confirm("Are you sure to delete: " + key)){
+				var form = document.createElement("form");
+				document.body.appendChild(form);
+				form.method = "POST";
+				form.action = "delete.php";
+				var element1 = document.createElement("INPUT");         
+				element1.name="keyName"
+				element1.value = key;
+				element1.type = 'hidden'
+				form.appendChild(element1);
+				form.submit();
+			}
+		}
+
+		function download(key){
+			if(confirm("Are you sure to delete: " + key)){
+				var form = document.createElement("form");
+				document.body.appendChild(form);
+				form.method = "POST";
+				form.action = "delete.php";
+				var element1 = document.createElement("INPUT");         
+				element1.name="keyName"
+				element1.value = key;
+				element1.type = 'hidden'
+				form.appendChild(element1);
+				form.submit();
+			}
+		}
+		</script>
 	</body>
 </html>
