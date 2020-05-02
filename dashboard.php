@@ -105,7 +105,7 @@
 		<div id="container">
 			<div class="shell">
 				<!-- Small Nav -->
-				<div class="small-nav"> <i class="material-icons" style="position: relative; top:6px;" onclick="window.location = /dashboard">home</i> <span>&gt;</span> <input size="115" type = "text" placeholder="/" name = "directory" value="<?php echo $folder;?>" disabled class="directory"> </div>
+				<div class="small-nav"> <i class="material-icons" style="position: relative; top:6px;" onclick="window.location = '/dashboard'">home</i> <span>&gt;</span> <input size="115" type = "text" placeholder="/" name = "directory" value="<?php echo $folder;?>" disabled class="directory"> </div>
 				<!-- End Small Nav -->
 				<!-- Message OK -->
 				<div class="msg msg-ok" id="ok">
