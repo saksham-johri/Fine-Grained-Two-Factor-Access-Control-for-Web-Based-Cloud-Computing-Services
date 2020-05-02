@@ -1,4 +1,10 @@
 <?php
+	include("connection.php");
+	if(empty($_SESSION['user_id']) || empty($_SESSION['googleVerifyCode'])){
+		header("Location: " . $APP_URL . 'dashboard');
+		die();
+	}
+
 	require 'vendor/autoload.php';
 	
 	use Aws\S3\S3Client;
@@ -23,7 +29,10 @@
 		die("Error: " . $e->getMessage());
 	}
 
-	// Folder is Demo for Now (Will make it get from user)
+	if(!isset($_POST['directory'])){
+		header("Location: " . $APP_URL . 'dashboard');
+		die();
+	}
 	$folder = $_POST['directory'];
 
 	$keyName = $folder . basename($_FILES["fileToUpload"]['name']);
