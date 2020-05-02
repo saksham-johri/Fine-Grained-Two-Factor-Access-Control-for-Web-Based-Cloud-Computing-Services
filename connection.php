@@ -9,5 +9,5 @@
 	date_default_timezone_set('Asia/Kolkata');
 	
 	//change the host of your Application here
-	$APP_URL = 'http://localhost/'
+	$APP_URL = 'http://HOST/'
 ?>
