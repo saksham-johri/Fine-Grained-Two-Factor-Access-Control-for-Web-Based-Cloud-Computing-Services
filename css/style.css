@@ -375,7 +375,7 @@ input, button {
   position: relative;
   height: 6rem;
   border-top: 1px solid #EEEEEF;
-  padding: 1rem 2rem 1rem 7.5rem;
+  padding: 1rem 2rem 1rem 2rem;
   -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: opacity 0.3s, -webkit-transform 0.3s;
   transition: transform 0.3s, opacity 0.3s;
