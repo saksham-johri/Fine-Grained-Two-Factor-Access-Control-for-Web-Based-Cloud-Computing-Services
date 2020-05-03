@@ -2,7 +2,7 @@
 include('connection.php');
 require_once 'googleLib/GoogleAuthenticator.php';
 
-if(empty($_SESSION['user_id']))
+if(empty($_SESSION['user_id']) || !empty($_SESSION['googleVerifyCode']))
 {
 	header("Location: " . $APP_URL . 'login');
 	die();
