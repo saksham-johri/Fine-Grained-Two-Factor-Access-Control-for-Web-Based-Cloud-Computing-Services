@@ -181,7 +181,7 @@
 																echo $str .'</a></h3></td>
 																	<td>xx.xx.xx</td>
 																	<td>Administrator</td>
-																	<td><a href="#" onclick="del(\'' . $object["Key"] . '\')" class="ico del">Delete</a><a href="#" onclick="download(\'' . $object["Key"] . '\')" class="ico edit">Download</a></td>
+																	<td><a onclick="del(\'' . $object["Key"] . '\')" class="ico del">Delete</a><a onclick="dload(\'' . $object["Key"] . '\')" class="ico edit">Download</a></td>
 																</tr>
 																';
 															}
@@ -279,53 +279,53 @@
 									<pre><a href="/dashboard"><i class="material-icons" style="position: relative; top:6px;">home</i> Root</a></pre>
 									<br>
 									<?php
-	try {
-		$results = $s3->getPaginator('ListObjects', [
-			'Bucket' => $bucketName
-		]);
-		$dir_arr = array();
-		foreach ($results as $result) {
-			foreach ($result['Contents'] as $object) {
-				if(substr($object['Key'], -1) == '/'){
-					
+										try {
+											$results = $s3->getPaginator('ListObjects', [
+												'Bucket' => $bucketName
+											]);
+											$dir_arr = array();
+											foreach ($results as $result) {
+												foreach ($result['Contents'] as $object) {
+													if(substr($object['Key'], -1) == '/'){
+														
 //Remove this after emptying bucket
 if($object['Key'] == '/')
 	continue;
-					array_push($dir_arr,$object['Key']);
-				}
-			}
-		}
-		$dir_arr_prev = array($dir_arr[0]);
-		echo '<pre><li><a href="/dashboard?f=' . $dir_arr[0] . '">' . $dir_arr[0] . '</a></li></pre>';
-		$j = 0;
-		for($i=1;$i<sizeof($dir_arr);$i++){
-			if(strpos($dir_arr[$i],$dir_arr_prev[$j]) !== false){
-				$dir_arr_prev[++$j] = $dir_arr[$i];
-				echo '<pre><li>';
-				for($tab=0;$tab<$j;$tab++){
-					if($tab == $j-1)
-						echo '|...';
-					else
-						echo '|   ';
-				}
-				echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . str_replace($dir_arr_prev[$j-1],'',$dir_arr[$i]) . '</a></li></pre>';
-			}else{
-				if($j != 0){
-					$j--;
-					$i--;
-				}else{
-					$dir_arr_prev[$j] = $dir_arr[$i];
-					echo '<pre><li>';
-					for($tab=0;$tab<$j;$tab++)
-						echo '    ';
-					echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . $dir_arr[$i] . '</a></li></pre>';
-				}
-			}
-		}
-	} catch (S3Exception $e) {
-		echo $e->getMessage() . PHP_EOL;
-	}
-?>
+														array_push($dir_arr,$object['Key']);
+													}
+												}
+											}
+											$dir_arr_prev = array($dir_arr[0]);
+											echo '<pre><li><a href="/dashboard?f=' . $dir_arr[0] . '">' . $dir_arr[0] . '</a></li></pre>';
+											$j = 0;
+											for($i=1;$i<sizeof($dir_arr);$i++){
+												if(strpos($dir_arr[$i],$dir_arr_prev[$j]) !== false){
+													$dir_arr_prev[++$j] = $dir_arr[$i];
+													echo '<pre><li>';
+													for($tab=0;$tab<$j;$tab++){
+														if($tab == $j-1)
+															echo '|...';
+														else
+															echo '|   ';
+													}
+													echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . str_replace($dir_arr_prev[$j-1],'',$dir_arr[$i]) . '</a></li></pre>';
+												}else{
+													if($j != 0){
+														$j--;
+														$i--;
+													}else{
+														$dir_arr_prev[$j] = $dir_arr[$i];
+														echo '<pre><li>';
+														for($tab=0;$tab<$j;$tab++)
+															echo '    ';
+														echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . $dir_arr[$i] . '</a></li></pre>';
+													}
+												}
+											}
+										} catch (S3Exception $e) {
+											echo $e->getMessage() . PHP_EOL;
+										}
+									?>
 								</div>
 							</div>
 						</div>
@@ -357,18 +357,19 @@ if($object['Key'] == '/')
 					form.appendChild(element1);
 					var element2 = document.createElement("INPUT");         
 					element2.name="directory";
-					element2.value = <?php echo $folder; ?>;
+					element2.value = <?php echo '"' . $folder . '"' ?>;
 					element2.type = 'hidden';
 					form.appendChild(element2);
 					form.submit();
 				}
 			}
 
-			function download(key){
+			function dload(key){
 				var form = document.createElement("form");
 				document.body.appendChild(form);
 				form.method = "POST";
 				form.action = "download.php";
+				form.target = "_blank";
 				var element1 = document.createElement("INPUT");         
 				element1.name="keyName";
 				element1.value = key;
