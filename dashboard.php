@@ -130,11 +130,11 @@
 							<!-- Box Head -->
 							<div class="box-head">
 								<h2 class="left">Current Objects</h2>
-								<div class="right">
-									<label>search objects</label>
-									<input type="text" class="field small-field" />
-									<input type="submit" class="button" value="search" />
-								</div>
+								<!-- <div class="right"> -->
+									<!-- <label>search objects</label> -->
+									<!-- <input type="text" class="field small-field" /> -->
+									<!-- <input type="submit" class="button" value="search" /> -->
+								<!-- </div> -->
 							</div>
 							<!-- End Box Head -->
 							<!-- Table -->
@@ -274,9 +274,9 @@
 							<!-- End Box Head-->
 							<div class="box-content">
 								<form method = "post">
-									<input required type = "text" placeholder="Create New Folder" name = "newFolder">
+									<input autocomplete="off" required type = "text" placeholder="Create New Folder" name = "newFolder">
 									<input type="submit" class="add-button" value="Create Folder " name="new_folder_click">
-									<input type = "hidden" value="<?php echo $folder;?>" name = "directory" class="directory">
+									<input type = "hidden" value="<?php echo $folder ?>" name = "directory" class="directory">
 								</form>
 								<div class="cl">&nbsp;</div>
 								<div class="sort">
