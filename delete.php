@@ -47,17 +47,27 @@
 			'Key'    => $keyname
 		]);
 
-		if ($result['DeleteMarker'])
-		{
-			echo $keyname . ' was deleted or does not exist.' . PHP_EOL;
-		} else {
-			header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
-			exit('Error: ' . $keyname . ' was not deleted.' . PHP_EOL);
-		}
 	}
 	catch (S3Exception $e) {
 		header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
 		exit('Error: ' . $e->getAwsErrorMessage() . PHP_EOL);
 	}
-	header('Location: ' . $RedirectURL . '?result=success&f=' . $folder);
+
+	// Check to see if the object was deleted.
+	try
+	{
+		echo 'Checking to see if ' . $keyname . ' still exists...' . PHP_EOL;
+
+		$result = $s3->getObject([
+			'Bucket' => $bucketName,
+			'Key'    => $keyname
+		]);
+
+		echo 'Error: ' . $keyname . ' still exists.';
+		header('Location: ' . $RedirectURL . '?result=failed&f=' . $folder);
+	}
+	catch (S3Exception $e) {
+		header('Location: ' . $RedirectURL . '?result=success&f=' . $folder);
+		exit($e->getAwsErrorMessage());
+	} 
 ?>
