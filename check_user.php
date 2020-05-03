@@ -20,7 +20,7 @@ if($process_name == "user_registor"){
     
 	$chk_user = mysqli_query($conn,"select * from tbl_users where email='$reg_email'") or die(mysqli_error($conn));
 	if(mysqli_num_rows($chk_user) == 0){
-    	$query = "insert into tbl_users(profile_name, email, password, google_auth_code) values('$reg_name', '$reg_email', '$reg_password', '$secret_key' )";
+    	$query = "insert into tbl_users(profile_name, email, password, google_auth_code, password_last_change, last_login, gauth_qr_last_scan) values('$reg_name', '$reg_email', '$reg_password', '$secret_key', now(), now(), now() )";
 		$result = mysqli_query($conn,$query) or die(mysqli_error($conn));
 		$_SESSION['user_id'] = mysqli_insert_id($conn);
 		$_SESSION['gauth'] = 'new';
@@ -39,7 +39,7 @@ if($process_name == "change-password"){
 	$result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
 	$user_row = mysqli_fetch_array($result);
 	if($user_row['password'] == $old_password){
-		$query = "UPDATE tbl_users SET password = '$new_password' WHERE user_id = '$user_id'";
+		$query = "UPDATE tbl_users SET password = '$new_password', password_last_change = now() WHERE user_id = '$user_id'";
 		$result = mysqli_query($conn,$query) or die(mysqli_error($conn));
 		echo "done";
 	}else{
@@ -55,6 +55,7 @@ if($process_name == "user_login"){
 	if(mysqli_num_rows($user_result) == 1){
     	$user_row = mysqli_fetch_array($user_result);
 		$_SESSION['user_id'] = $user_row['user_id'];
+		$_SESSION['login_at'] = date('Y-m-d H:i:s',time());
 		echo "done";
     }
     else{
@@ -79,6 +80,8 @@ if($process_name == "verify_code"){
 		}
 		if(isset($_POST['new_reg'])){
 			$_SESSION['gauth'] = 'reg';
+			$query = "UPDATE tbl_users SET gauth_qr_last_scan = now() WHERE user_id = '$user_id'";
+			$result = mysqli_query($conn,$query) or die(mysqli_error($conn));
 		}
 		echo "done";
 	} 
