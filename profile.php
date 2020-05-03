@@ -8,7 +8,6 @@
 		header("Location: " . $APP_URL . 'user_login_confirm');
 		die();
 	}
-	
 	$user_id = $_SESSION['user_id'];
 	$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
 	$user_row = mysqli_fetch_array($user_result);
@@ -105,7 +104,7 @@
 						<div class="box" id="upload">
 							<!-- Box Head -->
 							<div class="box-head">
-								<h2>2 Factor Authentication</h2>
+								<h2>Register New Device for 2 Factor Authentication</h2>
 							</div>
 							<!-- End Box Head -->
 							<!-- Form -->
@@ -133,11 +132,27 @@
 						<div class="box">
 							<!-- Box Head -->
 							<div class="box-head">
-								<h2>Directory</h2>
+								<h2>Information</h2>
 							</div>
 							<!-- End Box Head-->
 							<div class="box-content">
-								
+								<div class="sort">
+									<label>Name:</label>
+									<input type="text" disabled value="<?php echo $user_row['profile_name'] ?>">
+									</br></br>
+									<label>Email:</label>
+									<input type="text" disabled value="<?php echo $user_row['email'] ?>">
+								</div>
+								<div class="sort">
+									<label>Password Last Changed on</label>
+									<input type="text" disabled value="<?php echo $user_row['password_last_change'] ?>">
+									</br></br>
+									<label>2FA Last/ReScan on</label>
+									<input type="text" disabled value="<?php echo $user_row['gauth_qr_last_scan'] ?>">
+									</br></br>
+									<label>Last Login on</label>
+									<input type="text" disabled value="<?php echo $user_row['last_login'] ?>">
+								</div>
 							</div>
 						</div>
 						<!-- End Box -->
