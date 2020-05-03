@@ -12,53 +12,7 @@
 	$user_id = $_SESSION['user_id'];
 	$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
 	$user_row = mysqli_fetch_array($user_result);
-	
-	require 'vendor/autoload.php';
-	
-	use Aws\S3\S3Client;
-	use Aws\S3\Exception\S3Exception;
-	
-	include('aws-config.php');
-	
-	// Connect to AWS
-	try {
-		$s3 = S3Client::factory(
-			array(
-				'credentials' => array(
-					'key' => $IAM_KEY,
-					'secret' => $IAM_SECRET
-				),
-				'version' => 'latest',
-				'region'  => $REGION
-			)
-		);
-	} catch (Exception $e) {
-		die("Error: " . $e->getMessage());
-	}
-	
-	if(isset($_POST['new_folder_click'])) { 
-		$keyName = $_POST['directory'] . $_POST['newFolder'] . '/';
-		try{
-			$s3->putObject(
-				array(
-					'Bucket'=>$bucketName,
-					'Key' =>  $keyName,
-					'Body'=> ""
-				)
-			);
-			echo '<script>alert("Folder ' . $keyName .' Created !")</script>';
-		} catch (S3Exception $e) {
-			die('Error:' . $e->getMessage());
-		} catch (Exception $e) {
-			die('Error:' . $e->getMessage());
-		}
-	}
-	
-	if(!isset($_GET['f']) || $_GET['f'] == '/')
-		$folder = '';
-	else
-		$folder = $_GET['f'];
-	?>
+?>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -92,9 +46,9 @@
 				<!-- Main Nav -->
 				<div id="navigation">
 					<ul>
-						<li><a href="#dashboard" class="active"><span>Dashboard</span></a></li>
-						<li><a href="#upload"><span>Upload</span></a></li>
-						<li><a href="profile"><span>Profile Settings</span></a></li>
+						<li><a href="dashboard#dashboard"><span>Dashboard</span></a></li>
+						<li><a href="dashboard#upload"><span>Upload</span></a></li>
+						<li><a href="profile" class="active"><span>Profile Settings</span></a></li>
 					</ul>
 				</div>
 				<!-- End Main Nav -->
@@ -126,112 +80,14 @@
 					<!-- Content -->
 					<div id="content">
 						<!-- Box -->
-						<div class="box">
-							<!-- Box Head -->
-							<div class="box-head">
-								<h2 class="left">Current Objects</h2>
-								<div class="right">
-									<label>search objects</label>
-									<input type="text" class="field small-field" />
-									<input type="submit" class="button" value="search" />
-								</div>
-							</div>
-							<!-- End Box Head -->
-							<!-- Table -->
-							<div class="table">
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<th width="13"><input type="checkbox" class="checkbox" /></th>
-										<th>Title</th>
-										<th>Date</th>
-										<th>Added by</th>
-										<th width="110" class="ac">Content Control</th>
-									</tr>
-									<?php
-										try {
-											$results = $s3->getPaginator('ListObjects', [
-												'Bucket' => $bucketName
-											]);
-											foreach ($results as $result) {
-												if(sizeof($result['Contents']) == 0)
-													throw new Exception("Bucket Empty!");
-												foreach ($result['Contents'] as $object) {
-													if ($folder == '' || strpos($object['Key'], $folder) === 0) {
-														if($object['Key'] != $folder){
-															$ltrimmed = ltrim($object['Key'],$folder);
-															if(strlen(substr($ltrimmed,strpos($ltrimmed,'/')+1))>0 && strpos($ltrimmed,'/'))
-																continue;
-															if(substr($object['Key'], -1) == '/'){
-																echo '<tr><td><input type="checkbox" disabled class="checkbox" /></td>
-																	<td><h3><a href="/dashboard?f=' . $object['Key'] . '">';
-																if (substr($object['Key'], 0, strlen($folder)) == $folder) {
-																	$str = substr($object['Key'], strlen($folder));
-																}
-																echo $str . '</a></h3></td>
-																	<td>xx.xx.xx</td>
-																	<td>Administrator</td>
-																	<td><a href="#" class="ico del">Delete</a></td>
-																</tr>	
-																';
-															}
-															else{
-																echo '<tr><td><input type="checkbox" class="checkbox" /></td>
-																	<td><h3><a href="#">';
-																if (substr($object['Key'], 0, strlen($folder)) == $folder) {
-																	$str = substr($object['Key'], strlen($folder));
-																}
-																echo $str .'</a></h3></td>
-																	<td>xx.xx.xx</td>
-																	<td>Administrator</td>
-																	<td><a onclick="del(\'' . $object["Key"] . '\')" class="ico del">Delete</a><a onclick="dload(\'' . $object["Key"] . '\')" class="ico edit">Download</a></td>
-																</tr>
-																';
-															}
-														}else{
-															echo '<tr><td><input type="checkbox" disabled class="checkbox" /></td>
-																<td><h3><a href="/dashboard?f=' . substr($folder,0,strrpos(rtrim($folder,'/'),'/')) . '/"> <-- Back </a></h3></td>
-																<td>xx.xx.xx</td>
-																<td>Administrator</td>
-																<td></td>
-															</tr>	
-															';
-														}
-													}
-												}
-											}
-										} catch (S3Exception $e) {
-											echo $e->getMessage() . PHP_EOL;
-										} catch (Exception $e) {
-											echo $e->getMessage() . PHP_EOL;
-										}
-										?>
-								</table>
-								<!-- Pagging -->
-								<div class="pagging">
-									<!-- <div class="left">Showing 1-12 of 44</div> -->
-									<!-- <div class="right"> <a href="#">Previous</a> <a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">245</a> <span>...</span> <a href="#">Next</a> <a href="#">View all</a> </div> -->
-								</div>
-								<!-- End Pagging -->
-							</div>
-							<!-- Table -->
-						</div>
-						<!-- End Box -->
-						<!-- Box -->
 						<div class="box" id="upload">
 							<!-- Box Head -->
 							<div class="box-head">
-								<h2>Upload File</h2>
+								<h2>Change Password</h2>
 							</div>
 							<!-- End Box Head -->
 							<!-- Form -->
 							<div class="form">
-								<p>
-									<label>Current Directory <span>(Location where file will get uploaded)</span></label>
-									<input size="115" type = "text" placeholder="/" name = "directory" value="<?php echo '# /' . $folder;?>" disabled class="directory size1">
-								</p>
-								</br>
-								</br>
-								</br>
 								<form action="upload.php" method="post" enctype="multipart/form-data">
 									<p> <span class="req">max 10 MB</span>
 										<label>Select File to upload <span></span></label>
@@ -345,40 +201,5 @@
 			<div class="shell"> <span class="left">&copy; 2020 - EVOLVE</span> <span class="right"> Template by <a href="http://chocotemplates.com">Chocotemplates.com</a> </span> </div>
 		</div>
 		<!-- End Footer -->
-		<script>
-			function del(key){
-				if(confirm("Are you sure to delete: " + key)){
-					var form = document.createElement("form");
-					document.body.appendChild(form);
-					form.method = "POST";
-					form.action = "delete.php";
-					var element1 = document.createElement("INPUT");         
-					element1.name="keyName";
-					element1.value = key;
-					element1.type = 'hidden';
-					form.appendChild(element1);
-					var element2 = document.createElement("INPUT");         
-					element2.name="directory";
-					element2.value = <?php echo '"' . $folder . '"' ?>;
-					element2.type = 'hidden';
-					form.appendChild(element2);
-					form.submit();
-				}
-			}
-
-			function dload(key){
-				var form = document.createElement("form");
-				document.body.appendChild(form);
-				form.method = "POST";
-				form.action = "download.php";
-				form.target = "_blank";
-				var element1 = document.createElement("INPUT");         
-				element1.name="keyName";
-				element1.value = key;
-				element1.type = 'hidden';
-				form.appendChild(element1);
-				form.submit();
-			}
-		</script>
 	</body>
 </html>
