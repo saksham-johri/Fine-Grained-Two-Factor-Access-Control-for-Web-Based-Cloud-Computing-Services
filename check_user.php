@@ -31,6 +31,22 @@ if($process_name == "user_registor"){
     }
 }
 
+if($process_name == "change-password"){
+	$old_password	= md5($_POST['old_password']);
+	$new_password	= md5($_POST['new_password']);
+    
+	$user_id = $_SESSION['user_id'];
+	$result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
+	$user_row = mysqli_fetch_array($result);
+	if($user_row['password'] == $old_password){
+		$query = "UPDATE tbl_users SET password = '$new_password' WHERE user_id = '$user_id'";
+		$result = mysqli_query($conn,$query) or die(mysqli_error($conn));
+		echo "done";
+	}else{
+		echo "Wrong Current Password !";
+	}
+}
+
 if($process_name == "user_login"){
 	$login_email		= $_POST['login_email'];
 	$login_password		= md5($_POST['login_password']);
@@ -58,6 +74,12 @@ if($process_name == "verify_code"){
 
 	if ($checkResult){
 		$_SESSION['googleVerifyCode'] = $scan_code;
+		if(isset($_SESSION['gauth'])){
+			unset($_SESSION['gauth']);
+		}
+		if(isset($_POST['new_reg'])){
+			$_SESSION['gauth'] = 'reg';
+		}
 		echo "done";
 	} 
 	else{

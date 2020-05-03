@@ -43,11 +43,11 @@ $google_QR_Code = $gauth->getQRCodeGoogleUrl($email, $secret_key,'EVOLVE');
 			<p>Scan with <b>Google Authenticator</b> application on your smart phone.</p>
 			</td></tr>
 			<tr><td align="center">
-			<form id="LI-form" onsubmit="auth()">
+			<form id="LI-form">
 			<input type="hidden" id="process_name" name="process_name" value="verify_code" />
 				<div class="form-group">
 					<label for="email">Place generated code here:</label>
-					<input type="text" name="scan_code" class="form-control" id="scan_code" required />
+					<input autocomplete="off" type="text" name="scan_code" class="form-control" id="scan_code" required />
 				  </div>
 				  </td></tr>
 				  <tr><td align="center"><input type="submit" class="btn btn-success btn-submit" value="Verify Code"/></td></tr>
@@ -68,7 +68,7 @@ $google_QR_Code = $gauth->getQRCodeGoogleUrl($email, $secret_key,'EVOLVE');
 
 	<script>
 		$(document).ready(function(){
-			$(document).on('click', '.btn-submit', function auth(ev){
+			$(document).on('submit', '#LI-form', function(ev){
 				if($("#LI-form").valid() == true){
 					var data = $("#LI-form").serialize();
 					$.post('check_user.php', data, function(data,status){

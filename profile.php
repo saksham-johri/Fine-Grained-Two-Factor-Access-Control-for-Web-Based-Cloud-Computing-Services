@@ -16,21 +16,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>EVOLVE - Dashboard</title>
+		<title>EVOLVE - Profile</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="css/dashboard-style.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<style>
-			<?php
-				if(!isset($_GET['result'])){
-					echo '#ok,#error{ display: none; }';
-				}else{
-					if($_GET['result']=='success')
-						echo '#error{ display: none; }';
-					elseif($_GET['result']=='failed')
-						echo '#ok{ display: none; }';
-				}
-				?>
+		#ok,#error{
+			display: none;
+		}
 		</style>
 	</head>
 	<body>
@@ -58,9 +52,6 @@
 		<!-- Container -->
 		<div id="container">
 			<div class="shell" id="dashboard">
-				<!-- Small Nav -->
-				<div class="small-nav"> <i class="material-icons" style="position: relative; top:6px;" onclick="window.location = '/dashboard'">home</i> <span>&gt;</span> <input size="115" type = "text" placeholder="/" name = "directory" value="<?php echo $folder;?>" disabled class="directory"> </div>
-				<!-- End Small Nav -->
 				<!-- Message OK -->
 				<div class="msg msg-ok" id="ok">
 					<p><strong>Request completed successfully !</strong></p>
@@ -87,33 +78,50 @@
 							</div>
 							<!-- End Box Head -->
 							<!-- Form -->
-							<div class="form">
-								<form action="upload.php" method="post" enctype="multipart/form-data">
-									<p> <span class="req">max 10 MB</span>
-										<label>Select File to upload <span></span></label>
-										<input type = "hidden" value="<?php echo $folder; ?>" name = "directory" class="directory">
-									<div class="buttons">
-										<input required type="file" name="fileToUpload" class="field">
-										<input type="submit" class="button" value="Upload File">
-									</div>
+							<form method="post" id="changepswd">
+								<div class="form">
+									<input type="hidden" name="process_name" value="change-password" />
+									<p> <span class="req">* Required</span>
+										<label>Current Password <span></span></label>
+										<input required name="old_password" type="password" class="field size1" />
 									</p>
-								</form>
-								</br>
-								<center>
-									<p><label>- - OR - -</label></p>
-								</center>
-								</br>
-								<form action="upload-link.php" method="post">
-									<p> <span class="req">max 10 MB</span>
-										<label>Paste File file URL to upload: <span></span></label>
-										<input type = "hidden" value="<?php echo $folder; ?>" name = "directory" class="directory">
-									<div class="buttons">
-										<input required placeholder="http://paste-url-here" type="text" name="url" class="field" size="60">
-										<input type="submit" value="Upload File" class="button">
-									</div>
+									<p> <span class="req">* Required</span>
+										<label>New Password <span></span></label>
+										<input required type="password" name="new_password" class="newpw field size1" />
+									</p><p> <span class="req">* Required</span>
+										<label>Retype Password <span>(Should be same as above)</span></label>
+										<input required type="password" class="newpw field size1" />
 									</p>
-								</form>
+								</div>
+								<div class="buttons">
+									<input type="submit" class="button" value="Change Password">
+								</div>
+							</form>
+							<!-- End Form -->
+						</div>
+						<!-- End Box -->
+						
+						<!-- Box -->
+						<div class="box" id="upload">
+							<!-- Box Head -->
+							<div class="box-head">
+								<h2>2 Factor Authentication</h2>
 							</div>
+							<!-- End Box Head -->
+							<!-- Form -->
+							<form method="post" id="LI-form">
+								<div class="form">
+									<input type="hidden" id="process_name" name="process_name" value="verify_code" />
+									<input type="hidden" id="process_name" name="new_reg" value="true" />
+									<p> <span class="req">* Required</span>
+										<label>Place Code Here <span>(TOTP is required to Authenticate from registered device)</span></label>
+										<input autocomplete="off" required name="scan_code" type="text" class="field size1" />
+									</p>
+								</div>
+								<div class="buttons">
+									<input type="submit" class="button" value="Verify Code & Register">
+								</div>
+							</form>
 							<!-- End Form -->
 						</div>
 						<!-- End Box -->
@@ -129,62 +137,7 @@
 							</div>
 							<!-- End Box Head-->
 							<div class="box-content">
-								<form method = "post">
-									<input required type = "text" placeholder="Create New Folder" name = "newFolder">
-									<input type="submit" class="add-button" value="Create Folder " name="new_folder_click">
-									<input type = "hidden" value="<?php echo $folder;?>" name = "directory" class="directory">
-								</form>
-								<div class="cl">&nbsp;</div>
-								<div class="sort">
-									<pre><a href="/dashboard"><i class="material-icons" style="position: relative; top:6px;">home</i> Root</a></pre>
-									<br>
-									<?php
-										try {
-											$results = $s3->getPaginator('ListObjects', [
-												'Bucket' => $bucketName
-											]);
-											$dir_arr = array();
-											foreach ($results as $result) {
-												if(sizeof($result['Contents']) == 0)
-													throw new Exception("Bucket Empty!");
-												foreach ($result['Contents'] as $object) 
-													if(substr($object['Key'], -1) == '/')
-														array_push($dir_arr,$object['Key']);
-											}
-											$dir_arr_prev = array($dir_arr[0]);
-											echo '<pre><li><a href="/dashboard?f=' . $dir_arr[0] . '">' . $dir_arr[0] . '</a></li></pre>';
-											$j = 0;
-											for($i=1;$i<sizeof($dir_arr);$i++){
-												if(strpos($dir_arr[$i],$dir_arr_prev[$j]) !== false){
-													$dir_arr_prev[++$j] = $dir_arr[$i];
-													echo '<pre><li>';
-													for($tab=0;$tab<$j;$tab++){
-														if($tab == $j-1)
-															echo '|...';
-														else
-															echo '|   ';
-													}
-													echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . str_replace($dir_arr_prev[$j-1],'',$dir_arr[$i]) . '</a></li></pre>';
-												}else{
-													if($j != 0){
-														$j--;
-														$i--;
-													}else{
-														$dir_arr_prev[$j] = $dir_arr[$i];
-														echo '<pre><li>';
-														for($tab=0;$tab<$j;$tab++)
-															echo '    ';
-														echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . $dir_arr[$i] . '</a></li></pre>';
-													}
-												}
-											}
-										} catch (S3Exception $e) {
-											echo $e->getMessage() . PHP_EOL;
-										} catch (Exception $e) {
-											echo $e->getMessage() . PHP_EOL;
-										}
-									?>
-								</div>
+								
 							</div>
 						</div>
 						<!-- End Box -->
@@ -202,4 +155,42 @@
 		</div>
 		<!-- End Footer -->
 	</body>
+	<script>
+	$(document).ready(function(){
+		/* password change */
+		$(document).on('submit', '#changepswd', function(ev){
+			if(document.getElementsByClassName('newpw')[0].value != document.getElementsByClassName('newpw')[1].value){
+				$('#error').show();
+				alert("New Password Mismatch !");
+			}
+			else{
+				var data = $("#changepswd").serialize();
+				$.post('check_user.php', data, function(data,status){
+					if( data == "done"){
+						$('#ok').show();
+						alert("Password Changed Successfully !");
+					}
+					else{
+						$('#error').show();
+						alert(data);
+					}
+					
+				});
+			}
+		});
+		
+		/* Authenticator New Register */
+		$(document).on('submit', '#LI-form', function(ev){
+			var data = $("#LI-form").serialize();
+			$.post('check_user.php', data, function(data,status){
+				if( data == "done"){
+					window.location = 'user_confirm';
+				}
+				else{
+					alert("Invalid Code");
+				}
+			});
+		});
+	});
+	</script>
 </html>
