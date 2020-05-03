@@ -136,6 +136,17 @@
 							</div>
 							<!-- End Box Head-->
 							<div class="box-content">
+							
+									<label><b>Account Type:</b></label>
+									<div class="buttons">
+									<input type="text" disabled value="<?php echo $user_row['user_type'] ?>">
+									<?php 
+										if($user_row['user_type'] == "Admin"){
+											echo '<a href="/admin" target="_blank" class="button">Admin Panel</a>';
+										}
+									?>
+									</div>
+
 								<div class="sort">
 									<label>Name:</label>
 									<input type="text" disabled value="<?php echo $user_row['profile_name'] ?>">
