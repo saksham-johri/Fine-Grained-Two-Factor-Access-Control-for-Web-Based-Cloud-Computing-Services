@@ -169,9 +169,13 @@ if(!empty($_SESSION['googleVerifyCode'])){
 		  <input autocomplete="off" type="text" name="scan_code" class="login__input name" maxlength="6" placeholder="_ _ _ _" id="scan_code" required />
 		  <p class="app__meeting-name" align="center">Place Generated Code Here</p>
           </div>
-            <button type="submit" id="verify_code" class="login__submit" >Verify Code</button>
+            <button style="margin-top:30px;" type="submit" id="verify_code" class="login__submit" >Verify Code</button>
 		</form>
-		  
+		<div style="text-align:center">
+		 <p class="app__meeting-info" align="center">Download the App using this link(s)</p></br>
+		<a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8" target="_blank"><img width=60 src="img/iphone.png" /></a> &nbsp &nbsp
+		<a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank"><img width=60 src="img/android.png" /></a>
+		</div>
         </div>
       </div>
       <div class="app__logout">
