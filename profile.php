@@ -8,7 +8,7 @@
 	$user_id = $_SESSION['user_id'];
 	$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
 	$user_row = mysqli_fetch_array($user_result);
-?>	
+	?>	
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -18,9 +18,9 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 		<style>
-		#ok,#error{
+			#ok,#error{
 			display: none;
-		}
+			}
 		</style>
 	</head>
 	<body>
@@ -84,7 +84,8 @@
 									<p> <span class="req">* Required</span>
 										<label>New Password <span></span></label>
 										<input required type="password" name="new_password" class="newpw field size1" />
-									</p><p> <span class="req">* Required</span>
+									</p>
+									<p> <span class="req">* Required</span>
 										<label>Retype Password <span>(Should be same as above)</span></label>
 										<input required type="password" class="newpw field size1" />
 									</p>
@@ -96,7 +97,6 @@
 							<!-- End Form -->
 						</div>
 						<!-- End Box -->
-						
 						<!-- Box -->
 						<div class="box" id="upload">
 							<!-- Box Head -->
@@ -133,17 +133,15 @@
 							</div>
 							<!-- End Box Head-->
 							<div class="box-content">
-							
-									<label><b>Account Type:</b></label>
-									<div class="buttons">
+								<label><b>Account Type:</b></label>
+								<div class="buttons">
 									<input type="text" disabled value="<?php echo $user_row['user_type'] ?>">
 									<?php 
 										if($user_row['user_type'] == "Admin"){
 											echo '<a href="/admin" target="_blank" class="button">Admin Panel</a>';
 										}
-									?>
-									</div>
-
+										?>
+								</div>
 								<div class="sort">
 									<label>Name:</label>
 									<input type="text" disabled value="<?php echo $user_row['profile_name'] ?>">
@@ -179,41 +177,41 @@
 		<!-- End Footer -->
 	</body>
 	<script>
-	$(document).ready(function(){
-		/* password change */
-		$(document).on('submit', '#changepswd', function(ev){
-			if(document.getElementsByClassName('newpw')[0].value != document.getElementsByClassName('newpw')[1].value){
-				$('#error').show();
-				alert("New Password Mismatch !");
-			}
-			else{
-				var data = $("#changepswd").serialize();
-				$.post('check_user.php', data, function(data,status){
-					if( data == "done"){
-						$('#ok').show();
-						alert("Password Changed Successfully !");
-					}
-					else{
-						$('#error').show();
-						alert(data);
-					}
-					
-				});
-			}
-		});
-		
-		/* Authenticator New Register */
-		$(document).on('submit', '#LI-form', function(ev){
-			var data = $("#LI-form").serialize();
-			$.post('check_user.php', data, function(data,status){
-				if( data == "done"){
-					window.location = 'login.php';
+		$(document).ready(function(){
+			/* password change */
+			$(document).on('submit', '#changepswd', function(ev){
+				if(document.getElementsByClassName('newpw')[0].value != document.getElementsByClassName('newpw')[1].value){
+					$('#error').show();
+					alert("New Password Mismatch !");
 				}
 				else{
-					alert("Invalid Code");
+					var data = $("#changepswd").serialize();
+					$.post('check_user.php', data, function(data,status){
+						if( data == "done"){
+							$('#ok').show();
+							alert("Password Changed Successfully !");
+						}
+						else{
+							$('#error').show();
+							alert(data);
+						}
+						
+					});
 				}
 			});
+			
+			/* Authenticator New Register */
+			$(document).on('submit', '#LI-form', function(ev){
+				var data = $("#LI-form").serialize();
+				$.post('check_user.php', data, function(data,status){
+					if( data == "done"){
+						window.location = 'login.php';
+					}
+					else{
+						alert("Invalid Code");
+					}
+				});
+			});
 		});
-	});
 	</script>
 </html>
