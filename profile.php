@@ -210,7 +210,7 @@
 			var data = $("#LI-form").serialize();
 			$.post('check_user.php', data, function(data,status){
 				if( data == "done"){
-					window.location = 'user_confirm';
+					window.location = 'login';
 				}
 				else{
 					alert("Invalid Code");

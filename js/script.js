@@ -6,7 +6,9 @@ $(document).ready(function() {
       logoutPhase1 = 800,
       $login = $(".login"),
       $app = $(".app"),
-	  $msg = $(".msg"),
+      $appr = $("#appr"),
+      $appn = $("#appn"),
+	  newr = $("#newr").html(),
 	  session = $("#session").html();
 	
 	if(session){
@@ -18,12 +20,20 @@ $(document).ready(function() {
 		setTimeout(function() {
 		  $(that).addClass("success");
 		  setTimeout(function() {
-			$app.show();
-			$app.css("top");
-			$app.addClass("active");
+			  if(newr){
+				$appr.show();
+				$appn.hide();
+				$appr.css("top");
+				$appr.addClass("active");
+			  }else{
+				$appn.show();
+				$appr.hide();
+				$appn.css("top");
+				$appn.addClass("active");
+			  }
 		  }, submitPhase2 - 70);
 		  setTimeout(function() {
-			$login.hide();
+			//$login.hide();
 			$login.addClass("inactive");
 			animating = false;
 			$(that).removeClass("success processing");
@@ -43,36 +53,98 @@ $(document).ready(function() {
   };
   
   $(document).on("submit", "#LI-form",function(ev){
-		  if (animating) return;
-			animating = true;
-			var that = $('#verify_code');
-			ripple($(that), 1);
-			$(that).addClass("processing");
-			var data = $("#LI-form").serialize();
-			$.post('check_user.php', data, function(data,status){
-				if( data == "done"){
-					$(that).addClass("success");
-					setTimeout(function() {
-						window.location = 'dashboard';
-					},5000);
-				}
-				else{
-					alert("Wrong Code !");
-				}
-			});
-			
-			
-		
-		
+	  if (animating) return;
+		animating = true;
+		var that = $('#verify_code');
+		ripple($(that), 1);
+		$(that).addClass("processing");
+		var data = $("#LI-form").serialize();
+		$.post('check_user.php', data, function(data,status){
+			if( data == "done"){
+				$(that).addClass("success");
+				setTimeout(function() {
+					window.location = 'dashboard';
+				},5000);
+			}
+			else{
+				alert(data);
+			}
+		});
+  });
+  
+  $(document).on("submit", "#SI-form",function(ev){
+	  if (animating) return;
+		animating = true;
+		var that = $('#verify_code');
+		ripple($(that), 1);
+		$(that).addClass("processing");
+		var data = $("#SI-form").serialize();
+		$.post('check_user.php', data, function(data,status){
+			if( data == "done"){
+				$(that).addClass("success");
+				setTimeout(function() {
+					window.location = 'dashboard';
+				},5000);
+			}
+			else{
+				alert(data);
+			}
+		});
   });
   
   $(document).on("submit", "#login-form", function(e) {	
 	var data = $("#login-form").serialize();
 	$.post('check_user.php', data, function(data,status){
 		if( data != "done"){
-			alert("Invalid Credentials !");
+			alert(data);
 		}
 	});
+  });
+  
+  $(document).on("submit", "#signup-form", function(e) {	
+	var data = $("#signup-form").serialize();
+	$.post('check_user.php', data, function(data,status){
+		if( data != "done"){
+			alert(data);
+		}
+	});
+  });
+  
+  $(document).on("click", "#signup-link", function(e) {
+		if (animating) return;
+		$su = $('#signup-form');
+		$li = $('#login-form');
+		animating = true;
+		var that = $('body');
+		ripple($(that), e);
+		setTimeout(function() {
+		$su.show();
+		$su.css("top");
+		$su.addClass("active");
+		$li.hide();
+		}, submitPhase2 - 70);
+		setTimeout(function() {
+			animating = false;
+		}, submitPhase2);
+		
+  });
+
+  $(document).on("click", "#login-link", function(e) {
+		if (animating) return;
+		$su = $('#signup-form');
+		$li = $('#login-form');
+		animating = true;
+		var that = $('body');
+		ripple($(that), e);
+		setTimeout(function() {
+			$li.show();
+			$li.css("top");
+			$li.addClass("active");
+			$su.hide();
+		}, submitPhase2 - 70);
+		setTimeout(function() {
+			animating = false;
+		}, submitPhase2);
   });
   
   $(document).on("click", ".app__logout", function(e) {
@@ -83,13 +155,14 @@ $(document).ready(function() {
 		var that = this;
 		$(that).addClass("clicked");
 		setTimeout(function() {
-		  $app.removeClass("active");
+		  $appr.removeClass("active");
 		  $login.show();
 		  $login.css("top");
 		  $login.removeClass("inactive");
 		}, logoutPhase1 - 120);
 		setTimeout(function() {
 		  $app.hide();
+		  $appr.hide();
 		  animating = false;
 		  $(that).removeClass("clicked");
 		}, logoutPhase1);

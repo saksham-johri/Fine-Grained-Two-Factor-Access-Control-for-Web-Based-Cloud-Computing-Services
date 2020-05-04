@@ -1,11 +1,8 @@
 <?php
 	include("connection.php");
-	if(empty($_SESSION['user_id']))
+	if(empty($_SESSION['user_id']) || empty($_SESSION['googleVerifyCode']))
 	{
 		header("Location: " . $APP_URL . 'login');
-		die();
-	}elseif(empty($_SESSION['googleVerifyCode'])){
-		header("Location: " . $APP_URL . 'user_login_confirm');
 		die();
 	}
 	
