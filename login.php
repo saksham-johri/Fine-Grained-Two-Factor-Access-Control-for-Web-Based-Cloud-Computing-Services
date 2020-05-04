@@ -153,7 +153,7 @@ if(!empty($_SESSION['googleVerifyCode'])){
 				$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
 				$user_row = mysqli_fetch_array($user_result);
 				
-				$google_QR_Code = $gauth->getQRCodeGoogleUrl($user_row['email'], $user_row['google_auth_code'],'EVOLVE');
+				$google_QR_Code = $gauth->getQRCodeGoogleUrl($user_row['email'], $user_row['google_auth_code'],'EVOLVES');
 				
 				echo $google_QR_Code;
 			}

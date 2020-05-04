@@ -59,7 +59,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>EVOLVE - Dashboard</title>
+		<title>EVOLVES - Dashboard</title>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="css/dashboard-style.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -82,7 +82,7 @@
 			<div class="shell">
 				<!-- Logo + Top Nav -->
 				<div id="top">
-					<h1><a href="dashboard">-- EVOLVE --</a></h1>
+					<h1><a href="dashboard">-- EVOLVES --</a></h1>
 					<div id="top-navigation"> Welcome <a href="profile"><strong><?php echo ucfirst($user_row['profile_name']); ?></strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="profile">Profile Settings</a> <span>|</span> <a href="logout.php">Log out</a> </div>
 				</div>
 				<!-- End Logo + Top Nav -->
@@ -339,7 +339,7 @@
 		<!-- End Container -->
 		<!-- Footer -->
 		<div id="footer">
-			<div class="shell"> <span class="left">&copy; 2020 - EVOLVE</span> <span class="right"> Template by <a href="http://chocotemplates.com">Chocotemplates.com</a> </span> </div>
+			<div class="shell"> <span class="left">&copy; 2020 - EVOLVES</span> <span class="right"> Template by <a href="http://chocotemplates.com">Chocotemplates.com</a> </span> </div>
 		</div>
 		<!-- End Footer -->
 		<script>
