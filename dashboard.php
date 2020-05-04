@@ -82,8 +82,8 @@
 			<div class="shell">
 				<!-- Logo + Top Nav -->
 				<div id="top">
-					<h1><a href="dashboard">-- EVOLVES --</a></h1>
-					<div id="top-navigation"> Welcome <a href="profile"><strong><?php echo ucfirst($user_row['profile_name']); ?></strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="profile">Profile Settings</a> <span>|</span> <a href="logout.php">Log out</a> </div>
+					<h1><a href="dashboard.php">-- EVOLVES --</a></h1>
+					<div id="top-navigation"> Welcome <a href="profile"><strong><?php echo ucfirst($user_row['profile_name']); ?></strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="profile.php">Profile Settings</a> <span>|</span> <a href="logout.php">Log out</a> </div>
 				</div>
 				<!-- End Logo + Top Nav -->
 				<!-- Main Nav -->
@@ -91,7 +91,7 @@
 					<ul>
 						<li><a href="#dashboard" class="active"><span>Dashboard</span></a></li>
 						<li><a href="#upload"><span>Upload</span></a></li>
-						<li><a href="profile"><span>Profile Settings</span></a></li>
+						<li><a href="profile.php"><span>Profile Settings</span></a></li>
 					</ul>
 				</div>
 				<!-- End Main Nav -->
@@ -277,7 +277,7 @@
 								</form>
 								<div class="cl">&nbsp;</div>
 								<div class="sort">
-									<pre><a href="/dashboard"><i class="material-icons" style="position: relative; top:6px;">home</i> Root</a></pre>
+									<pre><a href="/dashboard.php"><i class="material-icons" style="position: relative; top:6px;">home</i> Root</a></pre>
 									<br>
 									<?php
 										try {

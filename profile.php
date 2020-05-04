@@ -29,16 +29,16 @@
 			<div class="shell">
 				<!-- Logo + Top Nav -->
 				<div id="top">
-					<h1><a href="dashboard">-- EVOLVES --</a></h1>
-					<div id="top-navigation"> Welcome <a href="profile"><strong><?php echo ucfirst($user_row['profile_name']); ?></strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="profile">Profile Settings</a> <span>|</span> <a href="logout.php">Log out</a> </div>
+					<h1><a href="dashboard.php">-- EVOLVES --</a></h1>
+					<div id="top-navigation"> Welcome <a href="profile.php"><strong><?php echo ucfirst($user_row['profile_name']); ?></strong></a> <span>|</span> <a href="#">Help</a> <span>|</span> <a href="profile.php">Profile Settings</a> <span>|</span> <a href="logout.php">Log out</a> </div>
 				</div>
 				<!-- End Logo + Top Nav -->
 				<!-- Main Nav -->
 				<div id="navigation">
 					<ul>
-						<li><a href="dashboard#dashboard"><span>Dashboard</span></a></li>
-						<li><a href="dashboard#upload"><span>Upload</span></a></li>
-						<li><a href="profile" class="active"><span>Profile Settings</span></a></li>
+						<li><a href="dashboard.php#dashboard"><span>Dashboard</span></a></li>
+						<li><a href="dashboard.php#upload"><span>Upload</span></a></li>
+						<li><a href="profile.php" class="active"><span>Profile Settings</span></a></li>
 					</ul>
 				</div>
 				<!-- End Main Nav -->
@@ -138,7 +138,7 @@
 									<input type="text" disabled value="<?php echo $user_row['user_type'] ?>">
 									<?php 
 										if($user_row['user_type'] == "Admin"){
-											echo '<a href="/admin" target="_blank" class="button">Admin Panel</a>';
+											echo '<a href="/admin.php" target="_blank" class="button">Admin Panel</a>';
 										}
 										?>
 								</div>
