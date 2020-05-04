@@ -45,7 +45,7 @@
 
 		// Create a signed URL from the command object that will last for
 		// 2 minutes from the current time
-		$response = $s3->createPresignedRequest($command, '+15 minutes');
+		$response = $s3->createPresignedRequest($command, '+10 minutes');
 		$presignedUrl = (string)$response->getUri();
 		header('Location: ' . $presignedUrl);
 		

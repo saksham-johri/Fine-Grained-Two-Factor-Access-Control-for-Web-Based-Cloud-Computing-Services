@@ -2,14 +2,14 @@
 include("connection.php");
 if(empty($_SESSION['user_id']))
 {
-	header('Location: /login');
+	header('Location: /login.php');
 	die();
 }
-	$user_id = $_SESSION['user_id'];
-	$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
-	$user_row = mysqli_fetch_array($user_result);
+$user_id = $_SESSION['user_id'];
+$user_result = mysqli_query($conn,"select * from tbl_users where user_id='$user_id'") or die(mysqli_error($conn));
+$user_row = mysqli_fetch_array($user_result);
 if($user_row['user_type'] != "Admin"){
-	header('Location: /dashboard');
+	header('Location: /dashboard.php');
 	die();
 }
 ?>

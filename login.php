@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 if(!empty($_SESSION['googleVerifyCode'])){
-	header('Location: /dashboard');
+	header('Location: /dashboard.php');
 	die();	
 }
 ?>

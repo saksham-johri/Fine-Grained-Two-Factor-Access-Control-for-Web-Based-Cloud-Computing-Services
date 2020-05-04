@@ -63,7 +63,7 @@ $(document).ready(function() {
 			if( data == "done"){
 				$(that).addClass("success");
 				setTimeout(function() {
-					window.location = 'dashboard';
+					window.location = 'dashboard.php';
 				},5000);
 			}
 			else{
@@ -83,7 +83,7 @@ $(document).ready(function() {
 			if( data == "done"){
 				$(that).addClass("success");
 				setTimeout(function() {
-					window.location = 'dashboard';
+					window.location = 'dashboard.php';
 				},5000);
 			}
 			else{

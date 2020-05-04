@@ -1,7 +1,7 @@
 <?php
 	include("connection.php");
 	if(empty($_SESSION['user_id']) || empty($_SESSION['googleVerifyCode'])){
-		header("Location: " . $APP_URL . 'dashboard');
+		header("Location: " . $APP_URL . 'dashboard.php');
 		die();
 	}
 
@@ -13,7 +13,7 @@
 	include('aws-config.php');
 	
 	if(!isset($_POST['directory'])){
-		header("Location: " . $APP_URL . 'dashboard');
+		header("Location: " . $APP_URL . 'dashboard.php');
 		die();
 	}
 	$folder = $_POST['directory'];

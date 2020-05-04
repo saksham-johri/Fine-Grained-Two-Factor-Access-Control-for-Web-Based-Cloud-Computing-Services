@@ -2,7 +2,7 @@
 	include("connection.php");
 	if(empty($_SESSION['user_id']) || empty($_SESSION['googleVerifyCode']))
 	{
-		header("Location: " . $APP_URL . 'login');
+		header("Location: " . $APP_URL . 'login.php');
 		die();
 	}
 	
@@ -160,7 +160,7 @@
 																continue;
 															if(substr($object['Key'], -1) == '/'){
 																echo '<tr><td><input type="checkbox" disabled class="checkbox" /></td>
-																	<td><h3><a href="/dashboard?f=' . $object['Key'] . '">';
+																	<td><h3><a href="/dashboard.php?f=' . $object['Key'] . '">';
 																if (substr($object['Key'], 0, strlen($folder)) == $folder) {
 																	$str = substr($object['Key'], strlen($folder));
 																}
@@ -186,7 +186,7 @@
 															}
 														}else{
 															echo '<tr><td><input type="checkbox" disabled class="checkbox" /></td>
-																<td><h3><a href="/dashboard?f=' . substr($folder,0,strrpos(rtrim($folder,'/'),'/')) . '/"> <-- Back </a></h3></td>
+																<td><h3><a href="/dashboard.php?f=' . substr($folder,0,strrpos(rtrim($folder,'/'),'/')) . '/"> <-- Back </a></h3></td>
 																<td>xx.xx.xx</td>
 																<td>Administrator</td>
 																<td></td>
@@ -293,7 +293,7 @@
 														array_push($dir_arr,$object['Key']);
 											}
 											$dir_arr_prev = array($dir_arr[0]);
-											echo '<pre><li><a href="/dashboard?f=' . $dir_arr[0] . '">' . $dir_arr[0] . '</a></li></pre>';
+											echo '<pre><li><a href="/dashboard.php?f=' . $dir_arr[0] . '">' . $dir_arr[0] . '</a></li></pre>';
 											$j = 0;
 											for($i=1;$i<sizeof($dir_arr);$i++){
 												if(strpos($dir_arr[$i],$dir_arr_prev[$j]) !== false){
@@ -305,7 +305,7 @@
 														else
 															echo '|   ';
 													}
-													echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . str_replace($dir_arr_prev[$j-1],'',$dir_arr[$i]) . '</a></li></pre>';
+													echo '<a href="/dashboard.php?f=' . $dir_arr[$i] . '">' . str_replace($dir_arr_prev[$j-1],'',$dir_arr[$i]) . '</a></li></pre>';
 												}else{
 													if($j != 0){
 														$j--;
@@ -315,7 +315,7 @@
 														echo '<pre><li>';
 														for($tab=0;$tab<$j;$tab++)
 															echo '    ';
-														echo '<a href="/dashboard?f=' . $dir_arr[$i] . '">' . $dir_arr[$i] . '</a></li></pre>';
+														echo '<a href="/dashboard.php?f=' . $dir_arr[$i] . '">' . $dir_arr[$i] . '</a></li></pre>';
 													}
 												}
 											}

@@ -1,11 +1,8 @@
 <?php
 	include("connection.php");
-	if(empty($_SESSION['user_id']))
+	if(empty($_SESSION['user_id']) || empty($_SESSION['googleVerifyCode']))
 	{
-		header("Location: " . $APP_URL . 'login');
-		die();
-	}elseif(empty($_SESSION['googleVerifyCode'])){
-		header("Location: " . $APP_URL . 'user_login_confirm');
+		header("Location: " . $APP_URL . 'login.php');
 		die();
 	}
 	$user_id = $_SESSION['user_id'];
@@ -210,7 +207,7 @@
 			var data = $("#LI-form").serialize();
 			$.post('check_user.php', data, function(data,status){
 				if( data == "done"){
-					window.location = 'login';
+					window.location = 'login.php';
 				}
 				else{
 					alert("Invalid Code");
