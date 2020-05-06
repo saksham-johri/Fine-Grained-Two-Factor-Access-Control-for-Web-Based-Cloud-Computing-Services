@@ -95,7 +95,9 @@ $(document).ready(function() {
   $(document).on("submit", "#login-form", function(e) {	
 	var data = $("#login-form").serialize();
 	$.post('check_user.php', data, function(data,status){
-		if( data != "done"){
+		if( data == "done"){
+			window.location = 'login.php';
+		}else{}
 			alert(data);
 		}
 	});
@@ -104,7 +106,9 @@ $(document).ready(function() {
   $(document).on("submit", "#signup-form", function(e) {	
 	var data = $("#signup-form").serialize();
 	$.post('check_user.php', data, function(data,status){
-		if( data != "done"){
+		if( data == "done"){
+			window.location = 'login.php';
+		}else{
 			alert(data);
 		}
 	});
